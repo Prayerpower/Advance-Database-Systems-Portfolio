@@ -1,0 +1,16 @@
+The Dove Bank Ltd database is normalised to Third Normal Form (3NF) to reduce data duplication and maintain data consistency.
+
+First Normal Form (1NF)
+Each column contains only one value, and each record is uniquely identified by a primary key.
+
+For example, each customer has one customer ID, and customer details such as first name, last name, email and phone number are stored in separate fields.
+
+Second Normal Form (2NF)
+The database is in 2NF because each table has a primary key, and the information in each table depends on that primary key.
+
+For example, the account number, account type and balance depend on the account ID.
+
+Third Normal Form (3NF)
+The database is in 3NF because customer, account and transaction information are stored in separate tables.
+
+This reduces duplication. Customer details are stored in CUSTOMERS, account details in ACCOUNTS, and transaction details in TRANSACTIONS.
