@@ -1,0 +1,9 @@
+The Dove Bank Ltd database uses primary keys and foreign keys to uniquely identify records and connect related tables.
+
+Primary Keys
+CUSTOMERS: customer_id
+ACCOUNTS: account_id
+TRANSACTIONS: transaction_id
+Foreign Keys
+ACCOUNTS: customer_id references CUSTOMERS.customer_id
+TRANSACTIONS: account_id references ACCOUNTS.account_id
