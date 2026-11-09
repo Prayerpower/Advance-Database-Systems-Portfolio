@@ -1,0 +1,110 @@
+-- DOVE BANK LTD
+-- PORTFOLIO 2: QUERY PROCESSING AND OPTIMISATION
+
+-- =============
+-- CREATE TABLES
+-- =============
+CREATE TABLE customers (
+    customer_id SERIAL PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    phone VARCHAR(20)
+);
+
+CREATE TABLE accounts (
+    account_id SERIAL PRIMARY KEY,
+    customer_id INT NOT NULL,
+    account_number VARCHAR(20) UNIQUE NOT NULL,
+    account_type VARCHAR(20) NOT NULL,
+    balance DECIMAL(12,2),
+    FOREIGN KEY (customer_id)
+        REFERENCES customers(customer_id)
+);
+
+CREATE TABLE transactions (
+    transaction_id SERIAL PRIMARY KEY,
+    account_id INT NOT NULL,
+    transaction_type VARCHAR(20) NOT NULL,
+    amount DECIMAL(12,2) NOT NULL,
+    transaction_date DATE,
+    FOREIGN KEY (account_id)
+        REFERENCES accounts(account_id)
+);
+
+-- =============
+-- INSERT SAMPLE DATA
+-- =============
+INSERT INTO customers
+(first_name, last_name, email, phone)
+VALUES
+('James', 'John', 'james.john@dovebank.com', '08010000001'),
+('Ifeanyi', 'Chime', 'ifeanyi.chime@dovebank.com', '08010000002'),
+('Adejoke', 'Samson', 'adejoke.samson@dovebank.com', '08010000003');
+
+INSERT INTO accounts
+(customer_id, account_number, account_type, balance)
+VALUES
+(1, '100001', 'Savings', 230000.00),
+(2, '100002', 'Current', 56000.00),
+(3, '100003', 'Savings', 146000.00);
+
+INSERT INTO transactions
+(account_id, transaction_type, amount, transaction_date)
+VALUES
+(1, 'Deposit', 30000.00, '2026-10-01'),
+(1, 'Withdrawal', 10000.00, '2026-10-02'),
+(2, 'Deposit', 15000.00, '2026-10-03'),
+(2, 'Withdrawal', 5000.00, '2026-10-04'),
+(3, 'Deposit', 20000.00, '2026-10-05'),
+(3, 'Withdrawal', 8000.00, '2026-10-06');
+
+-- =============
+-- SQL QUERIES
+-- =============
+-- Query 1: View all Dove Bank customers
+SELECT * FROM customers;
+
+-- Query 2: View all accounts
+SELECT * FROM accounts;
+
+-- Query 3: View all transactions
+SELECT * FROM transactions;
+
+-- Query 4: View customers with their accounts
+SELECT
+    customers.first_name,
+    customers.last_name,
+    accounts.account_number,
+    accounts.account_type,
+    accounts.balance
+FROM customers
+JOIN accounts
+ON customers.customer_id = accounts.customer_id;
+
+-- Query 5: View transactions for Account 1 (James John)
+SELECT *
+FROM transactions
+WHERE account_id = 1;
+
+-- =============
+-- EXECUTION PLAN BEFORE INDEXING
+-- =============
+EXPLAIN ANALYZE
+SELECT *
+FROM transactions
+WHERE account_id = 1;
+
+-- =============
+-- CREATE INDEX FOR OPTIMISATION
+-- =============
+CREATE INDEX idx_transactions_account
+ON transactions(account_id);
+
+-- =============
+-- EXECUTION PLAN AFTER INDEXING
+-- =============
+EXPLAIN ANALYZE
+SELECT *
+FROM transactions
+WHERE account_id = 1;
