@@ -1,0 +1,14 @@
+The relational schema for Dove Bank Ltd consists of three tables:
+
+CUSTOMERS
+(customer_id PK, first_name, last_name, email, phone)
+
+ACCOUNTS
+(account_id PK, customer_id FK, account_number, account_type, balance)
+
+TRANSACTIONS
+(transaction_id PK, account_id FK, transaction_type, amount, transaction_date)
+
+Relationships
+ACCOUNTS.customer_id references CUSTOMERS.customer_id.
+TRANSACTIONS.account_id references ACCOUNTS.account_id.
