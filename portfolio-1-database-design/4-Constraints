@@ -1,0 +1,6 @@
+The following constraints are used to maintain the accuracy and integrity of the Dove Bank Ltd database:
+
+PRIMARY KEY: Ensures that each customer, account and transaction has a unique identifier.
+FOREIGN KEY: Ensures that every account belongs to an existing customer and every transaction belongs to an existing account.
+UNIQUE: Customer email addresses and account numbers must not be duplicated.
+NOT NULL: Important information such as customer name, account number, account type, transaction type and transaction amount must have a value.
